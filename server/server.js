@@ -21,8 +21,9 @@ app.get('/', (req, res) => {
 
 app.get('/todos',  async (req, res) => {
     res.send('Hello World!');
+    const userEmail = req.query.user_email;
     try{
-       const todos =   await pool.query('SELECT * FROM todo');
+       const todos =   await pool.query('SELECT * FROM todo WHERE user_email = $1', [userEmail]);
        res.json(todos.rows);
     }
     catch(err){
