@@ -1,7 +1,7 @@
 const PORT = process.env.PORT || 3000;
 const express = require('express');
 const app = express();
-
+const pool = require('./db');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -22,8 +22,8 @@ app.get('/', (req, res) => {
 app.get('/todos',  async (req, res) => {
     res.send('Hello World!');
     try{
-        const todos = await Todo.find();
-        res.json(todos);
+       const todos =   await pool.query('SELECT * FROM todo');
+       res.json(todos.rows);
     }
     catch(err){
         res.send('Error ' + err);
